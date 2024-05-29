@@ -1,3 +1,4 @@
+#code partly from tutorial online
 import matplotlib.pyplot as plt # for plotting
 import numpy as np # for transformation
 
