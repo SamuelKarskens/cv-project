@@ -8,12 +8,26 @@ import torchvision.transforms as transforms # transform data
 import torch.nn as nn # basic building block for neural neteorks
 import torch.nn.functional as F # import convolution functions like Relu
 import torch.optim as optim # optimzer
+
+from ImageClassificationBase import ImageClassificationBase
+from OMRClassification import OMRClassification
 from customDataset import CustomDataset
+from torchvision import datasets
+from torch.utils import data
+from utils import fit
 
+if torch.cuda.is_available():
+    print("cuda is available")
+    dev = "cuda:0"
+else:
+    dev = "cpu"
+device = torch.device(dev)
 
-transform = transforms.Compose( # composing several transforms together
-    [transforms.ToTensor(), # to tensor object
-     transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))]) # mean = 0.5, std = 0.5
+transform = transforms.Compose([ # composing several transforms together
+        transforms.Resize((150,150)), # resize the image to 256x256
+        transforms.ToTensor(), # to tensor object
+     # transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))
+]) # mean = 0.5, std = 0.5
 
 # set batch_size
 batch_size = 4
@@ -21,11 +35,74 @@ batch_size = 4
 # set number of workers
 num_workers = 2
 
-train_dataset = CustomDataset('dataset2/info.csv', 'dataset2', transform=transform)
-train_loader = torch.utils.data.DataLoader(train_dataset, batch_size=batch_size,
+dataset = datasets.ImageFolder('audiveris_data', transform=transform)
+
+test_size = 200
+train_size = len(dataset) - test_size
+
+train_set, test_set = data.random_split(dataset, [train_size, test_size])
+# train_set, test_set = train_set.to(device), test_set.to(device)
+
+# train_dataset = CustomDataset('dataset2/info.csv', 'dataset2', transform=transform)
+train_loader = data.DataLoader(train_set, batch_size=batch_size,
                                           shuffle=True, num_workers=num_workers)
+test_loader = data.DataLoader(test_set, batch_size=batch_size,
+                                          shuffle=True, num_workers=num_workers)
+# train_loader.to
+#
+img, label = dataset[0]
+print(img.shape,label)
+print("Following classes are there : \n",dataset.classes)
+print("test", len(dataset.classes))
 
-# test_dataset =
+def display_img(img,label):
+    print(f"Label : {dataset.classes[label]}")
+    plt.imshow(img.permute(1,2,0))
+    plt.show()
 
-classes = {'A4', 'B4', 'C4', 'D4', 'E4', 'F4', 'G4'}
+#display the first image in the dataset
+# display_img(*dataset[0])
 
+# def display_img(img,label):
+#     print(f"Label : {dataset.classes[label]}")
+#     plt.imshow(img.permute(1,2,0))
+#
+# #display the first image in the dataset
+# display_img(*dataset[0])
+
+num_epochs = 1
+opt_func = torch.optim.Adam
+lr = 0.001
+model = OMRClassification()
+
+model.to(device)
+#fitting the model on training data and record the result after each epoch
+history = fit(num_epochs, lr, model, train_loader, test_loader, opt_func)
+torch.save(model.state_dict(), "models/model.pth")
+
+# the_model = OMRClassification()
+# the_model.load_state_dict(torch.load("models/model.pth"))
+def plot_accuracies(history):
+    """ Plot the history of accuracies"""
+    accuracies = [x['val_acc'] for x in history]
+    plt.plot(accuracies, '-x')
+    plt.xlabel('epoch')
+    plt.ylabel('accuracy')
+    plt.title('Accuracy vs. No. of epochs');
+
+
+plot_accuracies(history)
+
+def plot_losses(history):
+    """ Plot the losses in each epoch"""
+    train_losses = [x.get('train_loss') for x in history]
+    val_losses = [x['val_loss'] for x in history]
+    plt.plot(train_losses, '-bx')
+    plt.plot(val_losses, '-rx')
+    plt.xlabel('epoch')
+    plt.ylabel('loss')
+    plt.legend(['Training', 'Validation'])
+    plt.title('Loss vs. No. of epochs');
+
+plot_losses(history)
+print("done")
