@@ -3,7 +3,7 @@ import cv2
 import numpy as np
 
 # Load the image
-image_path = 'dataset2/A4.png'
+image_path = 'notes_a-g-1-sample/A4.png'
 image = cv2.imread(image_path)
 
 # Convert to grayscale
@@ -25,7 +25,7 @@ x, y, w, h = cv2.boundingRect(contours[0])
 cropped_image = image[y:y+h, x:x+w]
 
 # Save the cropped image
-output_path = 'dataset2/cropped_image.png'
+output_path = 'notes_a-g-1-sample/cropped_image.png'
 cv2.imwrite(output_path, cropped_image)
 
 print(f'Cropped image saved to {output_path}')

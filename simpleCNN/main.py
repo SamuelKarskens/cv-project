@@ -41,14 +41,11 @@ test_size = 200
 train_size = len(dataset) - test_size
 
 train_set, test_set = data.random_split(dataset, [train_size, test_size])
-# train_set, test_set = train_set.to(device), test_set.to(device)
 
-# train_dataset = CustomDataset('dataset2/info.csv', 'dataset2', transform=transform)
 train_loader = data.DataLoader(train_set, batch_size=batch_size,
                                           shuffle=True, num_workers=num_workers)
 test_loader = data.DataLoader(test_set, batch_size=batch_size,
                                           shuffle=True, num_workers=num_workers)
-# train_loader.to
 #
 img, label = dataset[0]
 print(img.shape,label)
@@ -70,7 +67,7 @@ def display_img(img,label):
 # #display the first image in the dataset
 # display_img(*dataset[0])
 
-num_epochs = 1
+num_epochs = 30
 opt_func = torch.optim.Adam
 lr = 0.001
 model = OMRClassification()
@@ -89,6 +86,7 @@ def plot_accuracies(history):
     plt.xlabel('epoch')
     plt.ylabel('accuracy')
     plt.title('Accuracy vs. No. of epochs');
+    plt.show()
 
 
 plot_accuracies(history)
@@ -103,6 +101,7 @@ def plot_losses(history):
     plt.ylabel('loss')
     plt.legend(['Training', 'Validation'])
     plt.title('Loss vs. No. of epochs');
+    plt.show()
 
 plot_losses(history)
 print("done")
