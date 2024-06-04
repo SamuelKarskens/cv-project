@@ -30,7 +30,7 @@ transform = transforms.Compose([ # composing several transforms together
 ]) # mean = 0.5, std = 0.5
 
 # set batch_size
-batch_size = 4
+batch_size = 2
 
 # set number of workers
 num_workers = 2
