@@ -35,31 +35,35 @@ batch_size = 2
 # set number of workers
 num_workers = 2
 
-dataset = datasets.ImageFolder('../datasets/notes1', transform=transform)
+train_set = datasets.ImageFolder('../datasets/notes1', transform=transform)
 
-print(len(dataset))
-test_size = 50
-train_size = len(dataset) - test_size
+test_set = datasets.ImageFolder('../datasets/notes1-test', transform=transform)
 
-train_set, test_set = data.random_split(dataset, [train_size, test_size])
+# print(len(dataset))
+# train_size = int(0.8 * len(dataset))
+# test_size = len(dataset) - train_size
+# train_size = len(dataset) - test_size
+# Todo is it a problem that we dont know if all the classes are present in the testset?
+# train_set, test_set = data.random_split(dataset, [train_size, test_size])
 
 train_loader = data.DataLoader(train_set, batch_size=batch_size,
                                           shuffle=True, num_workers=num_workers)
 test_loader = data.DataLoader(test_set, batch_size=batch_size,
                                           shuffle=True, num_workers=num_workers)
 #
-img, label = dataset[0]
+img, label = train_set[0]
 print(img.shape,label)
-print("Following classes are there : \n",dataset.classes)
-print("test", len(dataset.classes))
+print("Following classes are there : \n",train_set.classes)
+print("dataset classes size", len(train_set.classes))
+# print("test set classes", len(test_set.classes))
 
 def display_img(img,label):
-    print(f"Label : {dataset.classes[label]}")
+    print(f"Label : {train_set.classes[label]}")
     plt.imshow(img.permute(1,2,0))
     plt.show()
 
 #display the first image in the dataset
-display_img(*dataset[0])
+display_img(*train_set[0])
 
 # def display_img(img,label):
 #     print(f"Label : {dataset.classes[label]}")

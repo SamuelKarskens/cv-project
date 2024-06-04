@@ -11,9 +11,9 @@ LOWEST_PITCH = -12  # fourth ledger line below
 
 PITCHES = [str(pos) for pos in reversed(range(LOWEST_PITCH, HIGHEST_PITCH + 1))]
 lttr = PITCHES
-dataset_path = "../../datasets/notes3/"
+dataset_path = "../../datasets/notes1-test/"
 names = []
-for _ in range(15):
+for _ in range(5):
     for l in lttr:
         a = f'h{l}'
         #create folder with name from pitch value if not exist yet
