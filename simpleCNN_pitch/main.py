@@ -35,9 +35,9 @@ batch_size = 2
 # set number of workers
 num_workers = 2
 
-train_set = datasets.ImageFolder('../datasets/notes1', transform=transform)
+train_set = datasets.ImageFolder('../datasets/different_notes', transform=transform)
 
-test_set = datasets.ImageFolder('../datasets/notes1-test', transform=transform)
+test_set = datasets.ImageFolder('../datasets/different_notes_test_only_h', transform=transform)
 
 # print(len(dataset))
 # train_size = int(0.8 * len(dataset))
