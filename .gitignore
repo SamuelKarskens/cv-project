@@ -1,0 +1,3 @@
+datasets/existing/*
+models/*
+simpleCNN_pitch/models/*
