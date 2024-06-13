@@ -11,10 +11,10 @@ LOWEST_PITCH = -12  # fourth ledger line below
 
 PITCHES = [str(pos) for pos in reversed(range(LOWEST_PITCH, HIGHEST_PITCH + 1))]
 lttr = PITCHES
-annotations = ["h"] #half and quarternotes generated
-dataset_path = "../../datasets/different_notes_test_only_h/"
+annotations = ["h","w","q","e","s"] #half and quarternotes generated
+dataset_path = "../../datasets/different_notes/"
 names = []
-for _ in range(5):
+for _ in range(10):
     for l in lttr:
         for annotation in annotations:
 

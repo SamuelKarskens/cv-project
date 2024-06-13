@@ -33,11 +33,12 @@ transform = transforms.Compose([ # composing several transforms together
 batch_size = 2
 
 # set number of workers
-num_workers = 2
+num_workers = 0
 
 train_set = datasets.ImageFolder('../datasets/different_notes', transform=transform)
 
 test_set = datasets.ImageFolder('../datasets/different_notes_test_only_h', transform=transform)
+
 
 # print(len(dataset))
 # train_size = int(0.8 * len(dataset))
@@ -56,6 +57,8 @@ print(img.shape,label)
 print("Following classes are there : \n",train_set.classes)
 print("dataset classes size", len(train_set.classes))
 # print("test set classes", len(test_set.classes))
+
+# exit()
 
 def display_img(img,label):
     print(f"Label : {train_set.classes[label]}")
@@ -90,7 +93,7 @@ def plot_accuracies(history):
     plt.plot(accuracies, '-x')
     plt.xlabel('epoch')
     plt.ylabel('accuracy')
-    plt.title('Accuracy vs. No. of epochs');
+    plt.title('Accuracy vs. No. of epochs')
     plt.show()
 
 
