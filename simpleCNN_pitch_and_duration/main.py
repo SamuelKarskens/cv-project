@@ -33,12 +33,11 @@ device = torch.device(dev)
 # ]) # mean = 0.5, std = 0.5
 
 transform = transforms.Compose([
-    transforms.Resize((150, 150)),  # Resize all images to 256x256
+    transforms.Resize((150, 150)),
     transforms.Grayscale(),
-    # transforms.Normalize((0.94088465, 0.94088465, 0.94088465), (0.20184134, 0.20184134, 0.20184134)),  # Resize all images to 256x256
 ])
 transform_training = transforms.Compose([
-    transforms.Resize((150, 150)),  # Resize all images to 256x256
+    transforms.Resize((150, 150)),
     transforms.Grayscale(),
     transforms.RandomRotation(5, fill=1),
 ])
@@ -123,6 +122,7 @@ lr = 0.001
 model = OMRClassification()
 
 model.to(device)
+
 #fitting the model on training data and record the result after each epoch
 history = fit(num_epochs, lr, model, train_loader, test_loader, opt_func)
 torch.save(model.state_dict(), "models/model.pth")
@@ -133,10 +133,13 @@ def plot_accuracies(history):
     """ Plot the history of accuracies"""
     accuracies_duration = [x['val_acc_duration'] for x in history]
     accuracies_pitch = [x['val_acc_pitch'] for x in history]
-    plt.plot(accuracies_duration, '-x')
-    plt.plot(accuracies_pitch, '-x')
+    #plot accuracies_duration clear to see which is it
+
+    plt.plot(accuracies_duration, '-bx')
+    plt.plot(accuracies_pitch, '-rx')
     plt.xlabel('epoch')
     plt.ylabel('accuracy')
+    plt.legend(['Duration', 'Pitch'])
     plt.title('Accuracy vs. No. of epochs')
     plt.show()
 
@@ -147,11 +150,15 @@ def plot_losses(history):
     """ Plot the losses in each epoch"""
     train_losses = [x.get('train_loss') for x in history]
     val_losses = [x['val_loss'] for x in history]
+    val_loss_pitch = [x['val_loss_pitch'] for x in history]
+    val_loss_duration = [x['val_loss_duration'] for x in history]
     plt.plot(train_losses, '-bx')
     plt.plot(val_losses, '-rx')
+    plt.plot(val_loss_pitch, '-yx')
+    plt.plot(val_loss_duration, '-gx')
     plt.xlabel('epoch')
     plt.ylabel('loss')
-    plt.legend(['Training', 'Validation'])
+    plt.legend(['Training', 'Validation', 'Validation pitch', 'Validation duration'])
     plt.title('Loss vs. No. of epochs')
     plt.show()
 

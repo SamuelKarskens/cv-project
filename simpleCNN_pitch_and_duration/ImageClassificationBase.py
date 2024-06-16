@@ -1,8 +1,10 @@
-#From https://medium.com/thecyphy/train-cnn-model-with-pytorch-21dafb918f48
+#Partly from https://medium.com/thecyphy/train-cnn-model-with-pytorch-21dafb918f48
 
 import torch.nn as nn
 import torch.nn.functional as F
 import torch
+from matplotlib import pyplot as plt
+
 from utils import accuracy
 
 if torch.cuda.is_available():
@@ -35,8 +37,16 @@ class ImageClassificationPitchDuration(nn.Module):
         loss_pitch = F.cross_entropy(logits_pitch, labels_pitch) # Calculate loss pitch
         loss_duration = F.cross_entropy(logits_duration, labels_duration) # Calculate loss duration
 
-        acc_pitch_pred = accuracy(logits_pitch, labels_pitch) # Calculate accuracy
-        acc_duration_pred = accuracy(logits_duration, labels_duration) # Calculate accuracy
+        acc_pitch_pred, indices_pitch_correct = accuracy(logits_pitch, labels_pitch) # Calculate accuracy
+        acc_duration_pred, indices_duration_correct = accuracy(logits_duration, labels_duration) # Calculate accuracy
+
+        if True:
+            # plt image that was correclty classified
+            if len(indices_pitch_correct[0]) > 0:
+                print("index correct pitch image ", indices_pitch_correct[0])
+                # plt.imshow(images[indices_pitch_correct[0][0]].cpu().numpy().transpose(1,2,0))
+                # plt.show()
+                # print("Correctly classified pitch")
 
         return {
             'val_loss_pitch': loss_pitch.detach(), 

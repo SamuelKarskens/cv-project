@@ -12,8 +12,10 @@ device = torch.device(dev)
 
 def accuracy(outputs, labels):
     _, preds = torch.max(outputs, dim=1)
-    #print
-    return torch.tensor(torch.sum(preds == labels).item() / len(preds))
+    #get index where preds == labels
+    # to return which images got classified correctly
+    indices = torch.where(preds == labels)
+    return torch.tensor(torch.sum(preds == labels).item() / len(preds)), indices
 
 
 @torch.no_grad()
