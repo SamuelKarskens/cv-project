@@ -11,8 +11,8 @@ LOWEST_PITCH = -12  # fourth ledger line below
 
 PITCHES = [str(pos) for pos in reversed(range(LOWEST_PITCH, HIGHEST_PITCH + 1))]
 lttr = PITCHES
-annotations = ["h","w","q","e","s"] #half and quarternotes generated
-dataset_path = "../../datasets/different_notes/"
+annotations = ["h","w","q","e","s"] #half, whole, quarter, eight, sixteen notes generated
+dataset_path = "../../datasets/different_notes_3/"
 names = []
 for _ in range(10):
     for l in lttr:
@@ -32,6 +32,7 @@ for _ in range(10):
             canvas_options = CanvasOptions.get_empty()
             canvas_options.random_space_probability = 0.0
             canvas_options.randomize_stem_flips_for_pitches = []
+            random_number = np.random.randint(-12, 12)
 
             img_ori = mc.synthesize(
                 a,
@@ -39,10 +40,13 @@ for _ in range(10):
                 main_canvas_options=canvas_options,
                 above_canvas_options=canvas_options,
                 below_canvas_options=canvas_options,
-
-                transform_image=False, # do not transform
-                min_width=100)
+                above_annotation=f"w{random_number}",
+                transform_image=True, # do not transform
+                min_width=100,
+                )
             # img_ori = mc.synthesize_for_beauty(a, )
+
+            # img_ori = mc.synthesize_for_training(a, f"w{random_number}", width=100)
             img = img_ori.copy()
             img_normalized = (img - np.min(img)) / (np.max(img) - np.min(img)) * 255
             img_normalized = img_normalized.astype(np.uint8)

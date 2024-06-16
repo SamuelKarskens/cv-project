@@ -34,7 +34,7 @@ class ImageClassificationPitchDuration(nn.Module):
 
         loss_pitch = F.cross_entropy(logits_pitch, labels_pitch) # Calculate loss pitch
         loss_duration = F.cross_entropy(logits_duration, labels_duration) # Calculate loss duration
-        # fix this!!
+
         acc_pitch_pred = accuracy(logits_pitch, labels_pitch) # Calculate accuracy
         acc_duration_pred = accuracy(logits_duration, labels_duration) # Calculate accuracy
 

@@ -1,3 +1,7 @@
 datasets/existing/*
 models/*
 simpleCNN_pitch/models/*
+__pycache__/
+simpleCNN_pitch/__pycache__/
+simpleCNN_pitch_and_duration/models/
+

@@ -13,6 +13,8 @@ from torchvision import datasets
 from torch.utils import data
 from utils import fit
 from OMRDataset import CustomImageDataset
+from torchviz import make_dot
+
 
 if torch.cuda.is_available():
     print("cuda is available")
@@ -32,6 +34,7 @@ device = torch.device(dev)
 
 transform = transforms.Compose([
     transforms.Resize((150, 150)),  # Resize all images to 256x256
+    transforms.Grayscale(),
     # transforms.Normalize((0.94088465, 0.94088465, 0.94088465), (0.20184134, 0.20184134, 0.20184134)),  # Resize all images to 256x256
 ])
 
@@ -45,9 +48,9 @@ num_workers = 0
 
 # test_set = datasets.ImageFolder('../datasets/different_notes_test_only_h', transform=transform)
 
-train_set = CustomImageDataset('../dataset_generation/pitch_and_duration_diff_notes/train_data_annotations.csv', img_dir='/Users/adrianseguralorente/cv-project/datasets/different_notes',transform=transform)
+train_set = CustomImageDataset('../dataset_generation/different_notes_3_annotations/train_data_annotations.csv', img_dir='../datasets/different_notes_3',transform=transform)
 
-test_set = CustomImageDataset('../dataset_generation/pitch_and_duration_diff_notes/annotations_diff_notes.csv', img_dir='/Users/adrianseguralorente/cv-project/datasets/different_notes_test_only_h',transform=transform)
+test_set = CustomImageDataset('../dataset_generation/handwritten_annotations/train_data_annotations.csv', img_dir='../datasets/handwritten',transform=transform)
 
 train_loader = data.DataLoader(train_set, batch_size=batch_size,
                                           shuffle=True, num_workers=num_workers)
@@ -89,13 +92,13 @@ print(img.shape,label_pitch)
 # print("dataset classes size", len(train_set.classes))
 # print("test set classes", len(test_set.classes))
 
-# def display_img(img,label):
-#     print(f"Label : {train_set.classes[label]}")
-#     plt.imshow(img.permute(1,2,0))
-#     plt.show()
+def display_img(img,label, duration):
+    # print(f"Label : {train_set.classes[label]}")
+    plt.imshow(img.permute(1,2,0))
+    plt.show()
 
-# #display the first image in the dataset
-# display_img(*train_set[0])
+#display the first image in the dataset
+display_img(*test_set[0])
 
 # def display_img(img,label):
 #     print(f"Label : {dataset.classes[label]}")
@@ -118,8 +121,10 @@ torch.save(model.state_dict(), "models/model.pth")
 # the_model.load_state_dict(torch.load("models/model.pth"))
 def plot_accuracies(history):
     """ Plot the history of accuracies"""
-    accuracies = [x['val_acc'] for x in history]
-    plt.plot(accuracies, '-x')
+    accuracies_duration = [x['val_acc_duration'] for x in history]
+    accuracies_pitch = [x['val_acc_pitch'] for x in history]
+    plt.plot(accuracies_duration, '-x')
+    plt.plot(accuracies_pitch, '-x')
     plt.xlabel('epoch')
     plt.ylabel('accuracy')
     plt.title('Accuracy vs. No. of epochs')

@@ -32,7 +32,10 @@ class CustomImageDataset(Dataset):
 
     def __getitem__(self, idx):
         # use directory where folders with images are located, append the folder name (pitch number) and finally the actual image filename
-        img_path = os.path.join(self.img_dir,f'{self.img_labels.iloc[idx,1]}', self.img_labels.iloc[idx, 0])
+        if self.img_labels.iloc[idx,1] != " null": #when the folder name is not null
+            img_path = os.path.join(self.img_dir,f'{self.img_labels.iloc[idx,1]}', self.img_labels.iloc[idx, 0])
+        else:
+            img_path = os.path.join(self.img_dir, self.img_labels.iloc[idx, 0])
         image = read_image(img_path).float() / 255.0 
         label_pitch = self.pitch_label_mapping[self.img_labels.iloc[idx, 1]]
         label_duration = self.duration_label_mapping[self.img_labels.iloc[idx, 2]]
