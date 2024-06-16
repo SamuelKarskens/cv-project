@@ -12,6 +12,7 @@ device = torch.device(dev)
 
 def accuracy(outputs, labels):
     _, preds = torch.max(outputs, dim=1)
+    #print
     return torch.tensor(torch.sum(preds == labels).item() / len(preds))
 
 
