@@ -53,7 +53,8 @@ num_workers = 0
 # test_set = datasets.ImageFolder('../datasets/different_notes_test_only_h', transform=transform)
 
 # train_set = CustomImageDataset('../dataset_generation/different_notes_3_annotations/train_data_annotations.csv', img_dir='../datasets/different_notes_3',transform=transform_training)
-train_set = CustomImageDataset('../dataset_generation/pitch_and_duration_diff_notes/train_data_annotations.csv', img_dir='../datasets/different_notes',transform=transform_training)
+# train_set = CustomImageDataset('../dataset_generation/pitch_and_duration_diff_notes/train_data_annotations.csv', img_dir='../datasets/different_notes',transform=transform_training)
+train_set = CustomImageDataset('../dataset_generation/pitch_and_duration_diff_notes_verovio/train_data_annotations_verovio.csv', img_dir='../datasets/data_verovio',transform=transform_training)
 # test_set = CustomImageDataset('../dataset_generation/handwritten_annotations/train_data_annotations.csv', img_dir='../datasets/handwritten',transform=transform)
 
 # test_set = CustomImageDataset('../dataset_generation/pitch_and_duration_diff_notes/train_data_annotations.csv', img_dir='../datasets/different_notes',transform=transform)
