@@ -37,7 +37,11 @@ transform = transforms.Compose([
     transforms.Grayscale(),
     # transforms.Normalize((0.94088465, 0.94088465, 0.94088465), (0.20184134, 0.20184134, 0.20184134)),  # Resize all images to 256x256
 ])
-
+transform_training = transforms.Compose([
+    transforms.Resize((150, 150)),  # Resize all images to 256x256
+    transforms.Grayscale(),
+    transforms.RandomRotation(10, fill=1),
+])
 # set batch_size
 batch_size = 64
 
@@ -48,9 +52,11 @@ num_workers = 0
 
 # test_set = datasets.ImageFolder('../datasets/different_notes_test_only_h', transform=transform)
 
-train_set = CustomImageDataset('../dataset_generation/different_notes_3_annotations/train_data_annotations.csv', img_dir='../datasets/different_notes_3',transform=transform)
+train_set = CustomImageDataset('../dataset_generation/different_notes_3_annotations/train_data_annotations.csv', img_dir='../datasets/different_notes_3',transform=transform_training)
 
-test_set = CustomImageDataset('../dataset_generation/handwritten_annotations/train_data_annotations.csv', img_dir='../datasets/handwritten',transform=transform)
+# test_set = CustomImageDataset('../dataset_generation/handwritten_annotations/train_data_annotations.csv', img_dir='../datasets/handwritten',transform=transform)
+
+test_set = CustomImageDataset('../dataset_generation/pitch_and_duration_diff_notes/train_data_annotations.csv', img_dir='../datasets/different_notes',transform=transform)
 
 train_loader = data.DataLoader(train_set, batch_size=batch_size,
                                           shuffle=True, num_workers=num_workers)
@@ -96,9 +102,9 @@ def display_img(img,label, duration):
     # print(f"Label : {train_set.classes[label]}")
     plt.imshow(img.permute(1,2,0))
     plt.show()
-
-#display the first image in the dataset
-display_img(*test_set[0])
+#
+# #display the first image in the dataset
+display_img(*train_set[0])
 
 # def display_img(img,label):
 #     print(f"Label : {dataset.classes[label]}")
@@ -107,7 +113,7 @@ display_img(*test_set[0])
 # #display the first image in the dataset
 # display_img(*dataset[0])
 
-num_epochs = 30
+num_epochs = 60
 opt_func = torch.optim.Adam
 lr = 0.001
 model = OMRClassification()

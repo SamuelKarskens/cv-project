@@ -31,7 +31,7 @@ def evaluate(model, val_loader):
 
 def fit(epochs, lr, model, train_loader, val_loader, opt_func = torch.optim.AdamW):
     history = []
-    optimizer = opt_func(model.parameters(),lr)
+    optimizer = opt_func(model.parameters(),lr) #todo maybe do with weight_decay=1e-4
     # scheduler = StepLR(optimizer, step_size=6, gamma=0.1)
     for epoch in range(epochs):
         print("start epoch", epoch)
