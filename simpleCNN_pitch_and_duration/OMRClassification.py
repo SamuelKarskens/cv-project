@@ -12,6 +12,8 @@ class OMRClassification(ImageClassificationPitchDuration):
             nn.MaxPool2d(2,2),
             nn.Conv2d(64, 80, kernel_size = 3, stride = 1, padding = 1),
             nn.ReLU(),
+            nn.Conv2d(80 ,80, kernel_size = 3, stride = 1, padding = 1),
+            nn.ReLU(),
             nn.MaxPool2d(2,2),
             nn.Flatten(),
             nn.Linear(109520, 1024),
