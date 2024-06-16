@@ -46,20 +46,25 @@ batch_size = 64
 
 # set number of workers
 num_workers = 0
-
-# train_set = datasets.ImageFolder('../datasets/different_notes', transform=transform)
-
-# test_set = datasets.ImageFolder('../datasets/different_notes_test_only_h', transform=transform)
-
+#old
 # train_set = CustomImageDataset('../dataset_generation/different_notes_3_annotations/train_data_annotations.csv', img_dir='../datasets/different_notes_3',transform=transform_training)
 
+
+
+
+#train on different_notes and test on different_notes_test
 train_set = CustomImageDataset('../dataset_generation/pitch_and_duration_diff_notes/train_data_annotations.csv', img_dir='../datasets/different_notes',transform=transform_training)
+test_set = CustomImageDataset('../dataset_generation/pitch_and_duration_diff_notes/annotations_diff_notes.csv', img_dir='../datasets/different_notes_test',transform=transform)
+
+# #train on different_notes and test on handwritten
+# train_set = CustomImageDataset('../dataset_generation/pitch_and_duration_diff_notes/train_data_annotations.csv', img_dir='../datasets/different_notes',transform=transform_training)
+# test_set = CustomImageDataset('../dataset_generation/handwritten_annotations/train_data_annotations.csv', img_dir='../datasets/handwritten',transform=transform)
+#
+# #train on verovio and test on handwritten
 # train_set = CustomImageDataset('../dataset_generation/pitch_and_duration_diff_notes_verovio/train_data_annotations_verovio.csv', img_dir='../datasets/data_verovio',transform=transform_training)
+# test_set = CustomImageDataset('../dataset_generation/handwritten_annotations/train_data_annotations.csv', img_dir='../datasets/handwritten',transform=transform)
 
-test_set = CustomImageDataset('../dataset_generation/handwritten_annotations/train_data_annotations.csv', img_dir='../datasets/handwritten',transform=transform)
 
-# test_set = CustomImageDataset('../dataset_generation/pitch_and_duration_diff_notes/train_data_annotations.csv', img_dir='../datasets/different_notes',transform=transform)
-# test_set = CustomImageDataset('../dataset_generation/pitch_and_duration_diff_notes/annotations_diff_notes.csv', img_dir='../datasets/different_notes_test_only_h',transform=transform)
 
 train_loader = data.DataLoader(train_set, batch_size=batch_size,
                                           shuffle=True, num_workers=num_workers)
