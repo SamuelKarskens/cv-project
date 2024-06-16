@@ -40,7 +40,7 @@ transform = transforms.Compose([
 transform_training = transforms.Compose([
     transforms.Resize((150, 150)),  # Resize all images to 256x256
     transforms.Grayscale(),
-    transforms.RandomRotation(10, fill=1),
+    transforms.RandomRotation(5, fill=1),
 ])
 # set batch_size
 batch_size = 64
@@ -53,12 +53,14 @@ num_workers = 0
 # test_set = datasets.ImageFolder('../datasets/different_notes_test_only_h', transform=transform)
 
 # train_set = CustomImageDataset('../dataset_generation/different_notes_3_annotations/train_data_annotations.csv', img_dir='../datasets/different_notes_3',transform=transform_training)
-# train_set = CustomImageDataset('../dataset_generation/pitch_and_duration_diff_notes/train_data_annotations.csv', img_dir='../datasets/different_notes',transform=transform_training)
-train_set = CustomImageDataset('../dataset_generation/pitch_and_duration_diff_notes_verovio/train_data_annotations_verovio.csv', img_dir='../datasets/data_verovio',transform=transform_training)
-# test_set = CustomImageDataset('../dataset_generation/handwritten_annotations/train_data_annotations.csv', img_dir='../datasets/handwritten',transform=transform)
+
+train_set = CustomImageDataset('../dataset_generation/pitch_and_duration_diff_notes/train_data_annotations.csv', img_dir='../datasets/different_notes',transform=transform_training)
+# train_set = CustomImageDataset('../dataset_generation/pitch_and_duration_diff_notes_verovio/train_data_annotations_verovio.csv', img_dir='../datasets/data_verovio',transform=transform_training)
+
+test_set = CustomImageDataset('../dataset_generation/handwritten_annotations/train_data_annotations.csv', img_dir='../datasets/handwritten',transform=transform)
 
 # test_set = CustomImageDataset('../dataset_generation/pitch_and_duration_diff_notes/train_data_annotations.csv', img_dir='../datasets/different_notes',transform=transform)
-test_set = CustomImageDataset('../dataset_generation/pitch_and_duration_diff_notes/annotations_diff_notes.csv', img_dir='../datasets/different_notes_test_only_h',transform=transform)
+# test_set = CustomImageDataset('../dataset_generation/pitch_and_duration_diff_notes/annotations_diff_notes.csv', img_dir='../datasets/different_notes_test_only_h',transform=transform)
 
 train_loader = data.DataLoader(train_set, batch_size=batch_size,
                                           shuffle=True, num_workers=num_workers)
@@ -100,13 +102,13 @@ print(img.shape,label_pitch)
 # print("dataset classes size", len(train_set.classes))
 # print("test set classes", len(test_set.classes))
 
-def display_img(img,label, duration):
-    # print(f"Label : {train_set.classes[label]}")
-    plt.imshow(img.permute(1,2,0))
-    plt.show()
-#
-# #display the first image in the dataset
-display_img(*train_set[0])
+# def display_img(img,label, duration):
+#     # print(f"Label : {train_set.classes[label]}")
+#     plt.imshow(img.permute(1,2,0))
+#     plt.show()
+# #
+# # #display the first image in the dataset
+# display_img(*train_set[0])
 
 # def display_img(img,label):
 #     print(f"Label : {dataset.classes[label]}")
@@ -115,7 +117,7 @@ display_img(*train_set[0])
 # #display the first image in the dataset
 # display_img(*dataset[0])
 
-num_epochs = 60
+num_epochs = 30
 opt_func = torch.optim.Adam
 lr = 0.001
 model = OMRClassification()

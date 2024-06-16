@@ -25,19 +25,32 @@ class CustomImageDataset(Dataset):
         return len(self.img_labels)
     
     def create_mappings(self):
+        # self.img_labels[0].split('.png')[0][:1]
+        # self.img_labels[0].tolist()
+        # now execute split on every element of the list and then delete the first character
+        # self.img_labels[0] = [x.split('.png')[0][1:] for x in self.img_labels[0].tolist()]
+
+
         self.unique_indices_pitch = np.unique(self.img_labels[1].tolist())
+        # if self.img_labels[1][0] != " null":
+        #     self.unique_indices_pitch = np.unique(self.img_labels[1].tolist())
+        #     # self.unique_indices_pitch = np.unique([x.split('.png')[0][1:] for x in self.img_labels[0].tolist()])
+        # else:
+        # self.unique_indices_pitch = np.unique([x.split('.png')[0][1:] for x in self.img_labels[0].tolist()])
         self.unique_indices_duration = np.unique(self.img_labels[2].tolist())
         self.pitch_label_mapping = {self.unique_indices_pitch[i]: i for i in range(len(self.unique_indices_pitch))}
         self.duration_label_mapping = {self.unique_indices_duration[i]: i for i in range(len(self.unique_indices_duration))}
 
     def __getitem__(self, idx):
         # use directory where folders with images are located, append the folder name (pitch number) and finally the actual image filename
-        if self.img_labels.iloc[idx,1] != " null": #when the folder name is not null
-            img_path = os.path.join(self.img_dir,f'{self.img_labels.iloc[idx,1]}', self.img_labels.iloc[idx, 0])
-        else:
-            img_path = os.path.join(self.img_dir, self.img_labels.iloc[idx, 0])
-        image = read_image(img_path).float() / 255.0 
+        # if self.img_labels.iloc[idx,1] != " null": #when the folder name is not null
+        img_path = os.path.join(self.img_dir,f'{self.img_labels.iloc[idx,1]}', self.img_labels.iloc[idx, 0])
         label_pitch = self.pitch_label_mapping[self.img_labels.iloc[idx, 1]]
+        # else:
+        #     img_path = os.path.join(self.img_dir, self.img_labels.iloc[idx, 0])
+        #     label_pitch = self.pitch_label_mapping[self.img_labels.iloc[idx, 0].split('.png')[0][1:]]
+        image = read_image(img_path).float() / 255.0
+        # label_pitch = self.pitch_label_mapping[self.img_labels.iloc[idx, 1]]
         label_duration = self.duration_label_mapping[self.img_labels.iloc[idx, 2]]
         if self.transform:
             image = self.transform(image)
