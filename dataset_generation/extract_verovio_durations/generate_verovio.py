@@ -107,7 +107,17 @@ for note in notes:
         else:
             box = (left_bound, 100+left_upper_bound_addition, 180, 350)
         cropped_img = img.crop(box)
-        cropped_img.save(filename_png)
+        # cropped_img.save(filename_png)
+        # Create a new white background image
+
+        background = Image.new('RGB', cropped_img.size, (255, 255, 255))
+
+        # Paste the cropped image onto the white background
+        background.paste(cropped_img, (0, 0), cropped_img)
+
+        # Save the new image with a white background
+        background.save(filename_png)
+
         # print(f"Generated {note_id}.svg")
         print(f"Generated {note_id}_{dur}.svg")
 
