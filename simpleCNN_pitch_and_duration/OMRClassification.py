@@ -27,7 +27,7 @@ class OMRClassification(ImageClassificationPitchDuration):
         
         self.duration_prediction = nn.Sequential(
             # head to predict duration
-            nn.Linear(512,8)
+            nn.Linear(512,5)
         )
 
     def forward(self, xb):
