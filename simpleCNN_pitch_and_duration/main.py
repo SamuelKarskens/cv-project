@@ -52,9 +52,9 @@ num_workers = 0
 
 
 
-#train on different_notes and test on different_notes_test
-train_set = CustomImageDataset('../dataset_generation/pitch_and_duration_diff_notes/train_data_annotations.csv', img_dir='../datasets/different_notes',transform=transform_training)
-test_set = CustomImageDataset('../dataset_generation/pitch_and_duration_diff_notes/annotations_diff_notes.csv', img_dir='../datasets/different_notes_test',transform=transform)
+# #train on different_notes and test on different_notes_test
+# train_set = CustomImageDataset('../dataset_generation/pitch_and_duration_diff_notes/train_data_annotations.csv', img_dir='../datasets/different_notes',transform=transform_training)
+# test_set = CustomImageDataset('../dataset_generation/pitch_and_duration_diff_notes/annotations_diff_notes.csv', img_dir='../datasets/different_notes_test',transform=transform)
 
 # #train on different_notes and test on handwritten
 # train_set = CustomImageDataset('../dataset_generation/pitch_and_duration_diff_notes/train_data_annotations.csv', img_dir='../datasets/different_notes',transform=transform_training)
@@ -64,6 +64,9 @@ test_set = CustomImageDataset('../dataset_generation/pitch_and_duration_diff_not
 # train_set = CustomImageDataset('../dataset_generation/pitch_and_duration_diff_notes_verovio/train_data_annotations_verovio.csv', img_dir='../datasets/data_verovio',transform=transform_training)
 # test_set = CustomImageDataset('../dataset_generation/handwritten_annotations/train_data_annotations.csv', img_dir='../datasets/handwritten',transform=transform)
 
+#train on verovio and test on different_notes_test
+train_set = CustomImageDataset('../dataset_generation/pitch_and_duration_diff_notes_verovio/train_data_annotations_verovio.csv', img_dir='../datasets/data_verovio',transform=transform_training)
+test_set = CustomImageDataset('../dataset_generation/pitch_and_duration_diff_notes/annotations_diff_notes.csv', img_dir='../datasets/different_notes_test',transform=transform)
 
 
 train_loader = data.DataLoader(train_set, batch_size=batch_size,

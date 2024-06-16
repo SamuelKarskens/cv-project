@@ -40,13 +40,12 @@ class ImageClassificationPitchDuration(nn.Module):
         acc_pitch_pred, indices_pitch_correct = accuracy(logits_pitch, labels_pitch) # Calculate accuracy
         acc_duration_pred, indices_duration_correct = accuracy(logits_duration, labels_duration) # Calculate accuracy
 
-        if True:
-            # plt image that was correclty classified
-            if len(indices_pitch_correct[0]) > 0:
-                print("index correct pitch image ", indices_pitch_correct[0])
-                # plt.imshow(images[indices_pitch_correct[0][0]].cpu().numpy().transpose(1,2,0))
-                # plt.show()
-                # print("Correctly classified pitch")
+        # # plt image that was correclty classified
+        # if len(indices_pitch_correct[0]) > 0:
+        #     print("index correct pitch image ", indices_pitch_correct[0])
+        #     # plt.imshow(images[indices_pitch_correct[0][0]].cpu().numpy().transpose(1,2,0))
+        #     # plt.show()
+        #     # print("Correctly classified pitch")
 
         return {
             'val_loss_pitch': loss_pitch.detach(), 
